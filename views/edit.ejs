@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Song</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Songs Manager</h1>
+        <div class="user-section">
+            <span>Welcome, <strong><%= user.username %></strong></span>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="edit-form-container">
+            <h2>Edit Song</h2>
+            <form method="POST" onsubmit="return validate()">
+                <div class="form-group">
+                    <label>Song Name</label>
+                    <input type="text" name="songName" value="<%= song.songName %>" required>
+                    <span class="error" id="songNameError"></span>
+                </div>
+
+                <div class="form-group read-only">
+                    <label>Singer (Read-Only)</label>
+                    <input type="text" value="<%= song.singer %>" disabled>
+                </div>
+
+                <div class="form-group read-only">
+                    <label>Duration (Read-Only)</label>
+                    <input type="text" value="<%= song.duration %> min" disabled>
+                </div>
+
+                <div class="form-group read-only">
+                    <label>Created Date (Read-Only)</label>
+                    <input type="text" value="<%= new Date(song.createdAt).toLocaleDateString() %>" disabled>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">Save Changes</button>
+                    <a href="/songs" class="btn btn-cancel">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function validate(){
+            const songName = document.querySelector('[name="songName"]').value;
+            const songNameError = document.getElementById('songNameError');
+            
+            songNameError.textContent = '';
+            
+            if(songName.trim() === ''){
+                songNameError.textContent = 'Song name is required';
+                return false;
+            }
+            
+            if(songName.trim().length < 2){
+                songNameError.textContent = 'Song name must be at least 2 characters';
+                return false;
+            }
+            
+            return true;
+        }
+    </script>
+</body>
+</html>

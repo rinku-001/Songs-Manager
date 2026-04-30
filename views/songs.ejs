@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Songs</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Songs Manager</h1>
+        <div class="user-section">
+            <span>Welcome, <strong><%= user.username %></strong></span>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>All Songs</h2>
+        <div style="text-align:center;margin-bottom:1rem;">
+            <a href="/songs/new" class="btn btn-save">Add Song</a>
+        </div>
+        <% if(songs.length === 0) { %>
+            <p>No songs found</p>
+        <% } else { %>
+            <div class="songs-list">
+                <% songs.forEach(s=>{ %>
+                    <div class="song-card">
+                        <h3><%= s.songName %></h3>
+                        <p><strong>Singer:</strong> <%= s.singer %></p>
+                        <p><strong>Duration:</strong> <%= s.duration %> min</p>
+                        <p><strong>Added:</strong> <%= new Date(s.createdAt).toLocaleDateString() %></p>
+                        <div class="actions">
+                            <a href="/songs/<%= s._id %>" class="btn btn-edit">Edit</a>
+                            <form action="/songs/<%= s._id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure?')">
+                                <button type="submit" class="btn btn-delete">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

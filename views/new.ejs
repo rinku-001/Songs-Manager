@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Song</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Songs Manager</h1>
+        <div class="user-section">
+            <span>Welcome, <strong><%= user.username %></strong></span>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Add New Song</h2>
+        <form method="POST" action="/songs" onsubmit="return validate()">
+            <div class="form-group">
+                <label>Song Name</label>
+                <input type="text" name="songName" required>
+                <span class="error" id="songNameError"></span>
+            </div>
+            <div class="form-group">
+                <label>Singer</label>
+                <input type="text" name="singer" required>
+                <span class="error" id="singerError"></span>
+            </div>
+            <div class="form-group">
+                <label>Duration (minutes)</label>
+                <input type="number" step="0.1" min="0.1" name="duration" required>
+                <span class="error" id="durationError"></span>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-save">Create</button>
+                <a href="/songs" class="btn btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function validate(){
+            const songName = document.querySelector('[name="songName"]').value.trim();
+            const singer = document.querySelector('[name="singer"]').value.trim();
+            const duration = document.querySelector('[name="duration"]').value;
+
+            document.getElementById('songNameError').textContent = '';
+            document.getElementById('singerError').textContent = '';
+            document.getElementById('durationError').textContent = '';
+
+            let ok = true;
+            if(songName.length < 2){
+                document.getElementById('songNameError').textContent = 'Song name must be at least 2 characters';
+                ok = false;
+            }
+            if(singer.length < 2){
+                document.getElementById('singerError').textContent = 'Singer name must be at least 2 characters';
+                ok = false;
+            }
+            if(!duration || Number(duration) <= 0){
+                document.getElementById('durationError').textContent = 'Duration must be a positive number';
+                ok = false;
+            }
+            return ok;
+        }
+    </script>
+</body>
+</html>
